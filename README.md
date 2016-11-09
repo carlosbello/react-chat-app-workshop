@@ -15,7 +15,7 @@ Some Sublime Text recommended plugins:
 ### Start hacking:
 To start, clone this repo:
 ```
-$ git clone https://github.com/atabel/react-training.git
+$ git clone https://github.com/atabel/react-chat-app-workshop
 ```
 Install the dependencies:
 ```
