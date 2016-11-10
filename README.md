@@ -45,6 +45,8 @@ Import your new component in `app.js` and render it inside the `App` component.
 Ok, now you know how to create a basic component, let's create a more useful one.
 We're going to create the main app screen. It should have a header and a list of conversations, so we can write 2 new components: `<ChatList />` and `<Header>`.
 
+![ChatList](screenshots/contacts-list.png)
+
 You can start with `Header`, which should be simpler. It should have the following api:
 ```js
 <Header title={yourAppTitleHere} />
@@ -198,6 +200,8 @@ A message model can have the following api:
 }
 ```
 This component should render a list of messages, you can align your own messages to the right and the other users messages to the left (like telegram or whatsapp do) for example.
+
+![Conversation](screenshots/chat.png)
 
 Once you have created the `<Conversation />` component, you can render it when there is a `currentConversationId` selected:
 
