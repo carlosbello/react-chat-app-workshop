@@ -1,4 +1,18 @@
-# REACT CHAT APP
+# REACT CHAT APP WORKSHOP
+
+## Table of Contents
+
+- [Setup the environment](#setup-the-environment)
+    - [Prerequisites](#prerequisites)
+    - [Start hacking](#start-hacking) 
+- [Training](#training)
+    - [Exercise 1 (first components)](#exercise-1-first-components)
+    - [Exercise 2 (work with state)](#exercise-2-work-with-state)
+    - [Exercise 3 (conversation)](#exercise-3-conversation)
+    - [Exercise 4 (style your app, please)](#exercise-4-style-your-app-please)
+    - [Exercise 5 (redux)](#exercise-5-redux)
+    - [Exercise 6 (add your own feature)](#exercise-6-add-your-own-feature)
+
 ## Setup the environment
 ### Prerequisites:
 * node >= 4
