@@ -1,6 +1,7 @@
 import React, {PropTypes as t} from 'react';
 import Header from './header';
 import ChatList from './chat-list';
+import chatClient from '../chat-client';
 
 const App = React.createClass({
 
@@ -8,15 +9,34 @@ const App = React.createClass({
         currentUser: t.object,
     },
 
+    getInitialState() {
+        return {
+            conversations: [
+            ]
+        }
+    },
+
+    addConversation(newConversation) {
+        this.setState({
+            conversations: [
+                ...this.state.conversations,
+                newConversation,
+            ]
+        });
+    },
+
+    componentDidMount() {
+        chatClient.on('user', ({type, payload}) => {
+            this.addConversation(payload);
+        });
+    },
+
     openChat() {
 
     },
 
     render() {
-        const conversations = [
-            {id: '1', fullName: 'Güama', avatar: 'https://randomuser.me/api/portraits/lego/1.jpg'},
-            {id: '2', fullName: 'Hatuey', avatar: 'https://randomuser.me/api/portraits/lego/6.jpg'},
-        ];
+        const {conversations} = this.state;
         return (
             <div>
             <Header title="Chats" />
