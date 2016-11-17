@@ -12,8 +12,15 @@ const App = React.createClass({
 
     getInitialState() {
         return {
-            conversations: {},
+            conversations: {
+                'asdf': {name: 'xxx', fullName: 'XXX - YYY', avatar: '', id: 'asdf'}
+            },
             currentConversationId: null,
+            messsages: {
+                'asdf': [
+                    {time: new Date(), text: 'Hola', sender: 'Juan'}
+                ]
+            },
         }
     },
 
@@ -31,6 +38,9 @@ const App = React.createClass({
             this.addConversation(payload);
         });
         chatClient.getUsers();
+        chatClient.on('message', ({type, payload}) => {
+            console.log('new message', payload);
+        });
     },
 
     openConversation(id) {
@@ -46,11 +56,21 @@ const App = React.createClass({
         return Object.keys(conversations).map(convId => conversations[convId]);
     },
 
+    sendMessage(message) {
+        console.log('SEND', message);
+    },
+
     render() {
         const {currentConversationId, conversations} = this.state;
         if (currentConversationId) {
+            const currentConversationMessages = this.state.messsages[currentConversationId];
             return (
-                <Conversation onClose={this.closeConversation} conversation={conversations[currentConversationId]} />
+                <Conversation
+                    conversation={conversations[currentConversationId]}
+                    messages={currentConversationMessages}
+                    onClose={this.closeConversation}
+                    onSend={this.sendMessage}
+                />
             );
         } else {
             return (
