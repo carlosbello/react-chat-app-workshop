@@ -27,15 +27,6 @@ const chatClient = {
 
     /**
      * Fetch the users list from server.
-     * @return {Promise} resolves to an array of users:
-     * {
-     *     fullName: string,
-     *     avatar: string,
-     *     name: string,
-     *     familyName: string,
-     *     email: string,
-     *     id: string
-     * }
      */
     getUsers() {
         this.send({type: 'getUsers', receiver: 'server'});

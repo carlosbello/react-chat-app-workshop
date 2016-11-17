@@ -29,6 +29,7 @@ const App = React.createClass({
         chatClient.on('user', ({type, payload}) => {
             this.addConversation(payload);
         });
+        chatClient.getUsers();
     },
 
     openConversation(id) {
