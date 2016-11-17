@@ -2,6 +2,7 @@ import React, {PropTypes as t} from 'react';
 import Header from './header';
 import ChatList from './chat-list';
 import chatClient from '../chat-client';
+import Conversation from './conversation';
 
 const App = React.createClass({
 
@@ -46,15 +47,10 @@ const App = React.createClass({
     },
 
     render() {
-        const {currentConversationId} = this.state;
+        const {currentConversationId, conversations} = this.state;
         if (currentConversationId) {
             return (
-                <div>
-                    <button onClick={this.closeConversation}>
-                        Close
-                    </button>
-                    {this.state.conversations[currentConversationId].name}
-                </div>
+                <Conversation onClose={this.closeConversation} conversation={conversations[currentConversationId]} />
             );
         } else {
             return (
