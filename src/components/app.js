@@ -11,17 +11,17 @@ const App = React.createClass({
 
     getInitialState() {
         return {
-            conversations: [
-            ]
+            conversations: {},
+            currentConversationId: null,
         }
     },
 
     addConversation(newConversation) {
         this.setState({
-            conversations: [
+            conversations: {
                 ...this.state.conversations,
-                newConversation,
-            ]
+                [newConversation.id]: newConversation,
+            }
         });
     },
 
@@ -31,21 +31,41 @@ const App = React.createClass({
         });
     },
 
-    openChat() {
+    openConversation(id) {
+        this.setState({currentConversationId: id});
+    },
 
+    closeConversation() {
+        this.setState({currentConversationId: null});
+    },
+
+    getConversations() {
+        const {conversations} = this.state;
+        return Object.keys(conversations).map(convId => conversations[convId]);
     },
 
     render() {
-        const {conversations} = this.state;
-        return (
-            <div>
-            <Header title="Chats" />
-            <ChatList
-                conversations={conversations}
-                onSelectChat={this.openChat}
-                />
-            </div>
-        );
+        const {currentConversationId} = this.state;
+        if (currentConversationId) {
+            return (
+                <div>
+                    <button onClick={this.closeConversation}>
+                        Close
+                    </button>
+                    {this.state.conversations[currentConversationId].name}
+                </div>
+            );
+        } else {
+            return (
+                <div>
+                    <Header title="Chats"/>
+                    <ChatList
+                        conversations={this.getConversations()}
+                        onSelectChat={this.openConversation}
+                    />
+                </div>
+            );
+        }
     },
 });
 
