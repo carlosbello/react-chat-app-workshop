@@ -1,4 +1,4 @@
-import React, {PropTypes as t} from 'react';
+import React from 'react';
 
 const ChatBar = React.createClass({
     handleSubmit(evt) {
@@ -8,7 +8,6 @@ const ChatBar = React.createClass({
     },
 
     render() {
-        const {onSend} = this.props;
         return (
             <form onSubmit={this.handleSubmit}>
                 <input

@@ -21,7 +21,9 @@ const Conversation = ({onClose, conversation, messages, onSend}) => (
             title={conversation.name}
         />
         <ul>
-            {messages.map(({text, time, sender}) =>
+            {Object.keys(messages)
+                .map(id => messages[id])
+                .map(({text, time, sender}) =>
                 <li key={`${time}_${sender}`}>
                     <div>{text}</div>
                     <span>{formatTime(time)}</span>

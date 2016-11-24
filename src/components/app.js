@@ -11,14 +11,16 @@ const App = React.createClass({
     },
 
     getInitialState() {
+        const me = this.props.currentUser.id;
+        const message = this.createMessage({text: 'patata biónica', sender: 'asdf', receiver: me});
         return {
             conversations: {
                 'asdf': {name: 'xxx', fullName: 'XXX - YYY', avatar: '', id: 'asdf'}
             },
             currentConversationId: null,
-            messsages: {
-                'asdf': [
-                    {time: new Date(), text: 'Hola', sender: 'Juan'}
+            messages: {
+                [message.sender]: [
+                    message
                 ]
             },
         }
@@ -34,13 +36,47 @@ const App = React.createClass({
     },
 
     componentDidMount() {
+        const me = this.props.currentUser.id;
         chatClient.on('user', ({type, payload}) => {
             this.addConversation(payload);
         });
         chatClient.getUsers();
-        chatClient.on('message', ({type, payload}) => {
-            console.log('new message', payload);
+        chatClient.on('message', ({payload, sender, time}) => {
+            this.addMessage(this.createMessage({
+                text: payload.text,
+                sender: sender,
+                receiver: me,
+                time,
+            }));
         });
+    },
+
+    addMessage(message) {
+        const {messages} = this.state;
+        const me = this.props.currentUser.id;
+        const conversationId = message.sender === me
+            ? message.receiver
+            : message.sender;
+
+        this.setState({
+            messages: {
+                ...messages,
+                [conversationId]: {
+                    ...messages[conversationId],
+                    [message.id]: message,
+                }
+            }
+        });
+    },
+
+    createMessage({text, sender, receiver, time = Date.now()}) {
+        return {
+            id: `${time}-${sender}`,
+            text: text,
+            time,
+            sender,
+            receiver,
+        };
     },
 
     openConversation(id) {
@@ -56,14 +92,22 @@ const App = React.createClass({
         return Object.keys(conversations).map(convId => conversations[convId]);
     },
 
-    sendMessage(message) {
-        console.log('SEND', message);
+    sendMessage(text) {
+        const {currentConversationId} = this.state;
+        const me = this.props.currentUser.id;
+        const newMessage = this.createMessage({text: text, sender: me, receiver: currentConversationId});
+        chatClient.sendMessage(text, currentConversationId);
+        this.addMessage(newMessage);
+    },
+
+    getMessages(conversationId) {
+        return this.state.messages[conversationId] || [];
     },
 
     render() {
         const {currentConversationId, conversations} = this.state;
         if (currentConversationId) {
-            const currentConversationMessages = this.state.messsages[currentConversationId];
+            const currentConversationMessages = this.getMessages(currentConversationId);
             return (
                 <Conversation
                     conversation={conversations[currentConversationId]}
