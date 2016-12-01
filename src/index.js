@@ -2,10 +2,17 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './components/app';
 import chatClient from './chat-client';
+import {Provider} from 'react-redux';
+import {createStore} from 'redux';
+import reducer from './reducer';
+
+const store = createStore(reducer);
 
 const initApp = (userInfo) => {
     ReactDOM.render(
-        <App currentUser={userInfo} />,
+        <Provider store={store}>
+            <App currentUser={userInfo} />
+        </Provider>,
         document.getElementById('root')
     );
 };
